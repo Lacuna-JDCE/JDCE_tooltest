@@ -58,7 +58,7 @@ script_tokens=($scripts)
 script_count=${#script_tokens[@]}
 
 # Run the tests!
-echo -e "Running ${#folders[@]} tests from app '$main_folder' with main HTML file '$main_html_file' and JS file '$main_js_file' (extracted $script_count scripts)\n"
+echo -e "Running ${#folders[@]} tests from app '$main_folder' with main HTML file '$main_html_file' and JS file '$main_js_file' (extracted $script_count scripts).\n"
 
 # Output table headers.
 printf "\e[1m%-30s %-30s %s\n\e[0m" "Tool name" "# function keywords" "% original"

@@ -9,7 +9,7 @@ This test requires Node.js, webpack, rollup and the closure compiler.
 ```
 ./tooltest.sh
 ```
-This should create a folder for each tool. To clean up, run
+This should create a folder for each tool. To remove all created folders, run
 ```
 ./tooltest.sh clean
 ```
