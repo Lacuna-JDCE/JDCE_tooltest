@@ -87,6 +87,7 @@ echo -e "\n"
 # Output table headers.
 printf "\e[1m%-30s %-15s %-15s %s\n\e[0m" "Tool" "# function" "% original" "JS errors?"
 printf "=%.0s" {1..79}
+echo -e -n "\n"
 
 
 # Loop over each entry to test:

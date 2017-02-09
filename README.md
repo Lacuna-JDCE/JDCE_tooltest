@@ -3,7 +3,16 @@ This script runs several tools that should optimize JavaScript files by removing
 The script outputs a table with the amount of _function_ keywords in the resulting JS source.
 
 ## Installation
-This test requires Chromium, Node.js, webpack, rollup and the closure compiler.
+Requires the following:
++ Chromium (`chromium-browser`)
++ Node.js (`nodejs-legacy`)
++ Google closure compiler (`closure-compiler`)
+
+And the following npm modules:
++ webpack (`webpack`)
++ rollup (`rollup`)
+
+
 
 ## Running
 ```
