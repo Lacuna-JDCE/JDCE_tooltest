@@ -57,15 +57,18 @@ function_keyword_count=$(./functioncount.sh $main_folder $scripts)
 script_tokens=($scripts)
 script_count=${#script_tokens[@]}
 
-# Run the tests!
-echo -e "Running ${#folders[@]} tests from app '$main_folder' with main HTML file '$main_html_file' and JS file '$main_js_file' (extracted $script_count scripts).\n"
+# Output run info.
+echo -e "Running \e[1m${#folders[@]}\e[0m tests with the following settings:\n"
+printf "\t%-25s %s\n" "folder" $main_folder
+printf "\t%-25s %s\n" "HTML file" $main_html_file
+printf "\t%-25s %s\n" "JS file" $main_js_file
+printf "\t%-25s %s\n" "# JS files extracted" $script_count
+echo -e "\t# \e[3mfunction\e[0m keywords       $function_keyword_count"
+echo -e "\n"
 
 # Output table headers.
-printf "\e[1m%-30s %-30s %s\n\e[0m" "Tool name" "# function keywords" "% original"
+printf "\e[1m%-30s %-15s %-15s %s\n\e[0m" "Tool" "# function" "% original" "JS errors?"
 printf "=%.0s" {1..79}
-
-# First entry is no tool.
-printf "%-30s %-30s %s\n" "No tool (original)" $function_keyword_count "100%"
 
 
 # Loop over each entry to test:
@@ -79,16 +82,26 @@ do
 	# Run te tool!
 	`${commands[$i]}` 2> /dev/null
 
-	# Create a new HTML file, remove all current script tags, append the compiled JS script before the </body>.
+	# Create a new HTML file, remove all <script> tags, append the compiled JS script before the </body>.
 	cp $main_html_file $new_html_file
-	sed -r -i -e 's|<script src="([^\"]*)"></script>||g' $new_html_file # remove all script src tags
-	sed -r -i -e '/<\/body>/i <script src="$compiled_js_file"><\/script>' $new_html_file # insert new script tag before </body>
+	sed -r -i -e 's|<script src="([^\"]*)"></script>||g' $new_html_file
+	sed -r -i -e '/<\/body>/i <script src="'$compiled_js_file'"><\/script>' $new_html_file
 
 	# Move back up a directory, and count the occurences of the function keyword in the compiled JS script.
 	cd ../
 	function_count=$(./functioncount.sh "${folders[i]}/" $compiled_js_file)
 	percent=$(echo "scale=1; $function_count*100/$function_keyword_count" | bc)
 
+	# Run a headless Chromium instance and retrieve the number of errors.
+	javascript_errors=$(node jserrorcount.js "${folders[i]}/$new_html_file")
+
 	# Output tool name and occurences.
-	printf "%-30s %-30s %s\n" ${folders[$i]} $function_count "$percent%"
+	printf "%-30s %-15s %-15s %s" ${folders[$i]} $function_count "$percent%"
+
+	if [ $javascript_errors -gt 0 ] ; then
+		echo -e "\033[0;31myes \033[0;37m($javascript_errors)"
+	else
+		echo -e "\033[0;32mno\033[0;37m"
+	fi
+
 done
