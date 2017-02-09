@@ -3,6 +3,7 @@
 main_folder="default/"
 main_html_file="index.html"
 main_js_file="js/app.js"
+chrome_timeout=5000 # in milliseconds
 
 # That's it! Beware, below be dragons :)
 
@@ -82,6 +83,7 @@ printf "\t%-25s %s\n" "HTML file" $main_html_file
 printf "\t%-25s %s\n" "JS file" $main_js_file
 printf "\t%-25s %s\n" "# JS files extracted" $script_count
 echo -e "\t# \e[3mfunction\e[0m keywords       $function_keyword_count"
+printf "\t%-25s %s\n" "Chromium timeout" "${chrome_timeout}ms"
 echo -e "\n"
 
 # Output table headers.
@@ -112,7 +114,7 @@ do
 	percent=$(echo "scale=1; $function_count*100/$function_keyword_count" | bc)
 
 	# Run a headless Chromium instance and retrieve the number of errors.
-	javascript_errors=$(node jserrorcount.js "${folders[i]}/$new_html_file")
+	javascript_errors=$(node jserrorcount.js "${folders[i]}/$new_html_file $chrome_timeout")
 
 	# Output tool name and occurences.
 	printf "%-30s %-15s %-15s %s" ${folders[$i]} $function_count "$percent%"

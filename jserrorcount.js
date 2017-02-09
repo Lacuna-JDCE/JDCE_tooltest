@@ -1,6 +1,7 @@
 var delayedExit, proc,
     errors = [],
     file = process.argv[2],
+	timeout = parseInt( process.argv[3] ),
     spawnHeadlessChromium = require('run-headless-chromium').spawn;
 
 
@@ -22,7 +23,7 @@ proc.stdout.on('data', function(data)
 });
 
 
-// Close after 5 seconds.
+// Close after [timeout] seconds.
 setTimeout(function()
 {
 	// Output number of JS errors.
@@ -30,4 +31,4 @@ setTimeout(function()
 
 	// Kill Chromium instance.
     proc.kill('SIGINT');
-}, 5000);
+}, timeout);
