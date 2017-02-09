@@ -7,7 +7,7 @@ total_occurrences=0
 # For each script we passed:
 for script in ${@:2}
 do
-	# Create full path.
+	# Generate full path.
 	file="$folder$script"
 
 	# Get the # of occurrences.

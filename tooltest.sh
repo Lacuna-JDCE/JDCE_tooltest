@@ -8,6 +8,24 @@ main_js_file="js/app.js"
 
 
 
+
+# Check if required files are there.
+if [ ! -d "$main_folder" ]; then
+	echo -e "\033[0;31mCouldn't find main folder '$main_folder'\033[0;37m"
+	exit
+fi
+
+if [ ! -f "$main_folder$main_html_file" ]; then
+	echo -e "\033[0;31mCouldn't find main HTML file '$main_html_file'\033[0;37m"
+	exit
+fi
+
+if [ ! -f "$main_folder$main_js_file" ]; then
+	echo -e "\033[0;31mCouldn't find main JS file '$main_js_file'\033[0;37m"
+	exit
+fi
+
+
 # Generate file names
 new_html_file="new_"$main_html_file
 html_file="$main_folder$main_html_file"

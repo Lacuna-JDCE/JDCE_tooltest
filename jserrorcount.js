@@ -3,6 +3,7 @@ var delayedExit, proc,
     file = process.argv[2],
     spawnHeadlessChromium = require('run-headless-chromium').spawn;
 
+
 // Spawn headless chromium instance.
 proc = spawnHeadlessChromium([file], {});
 
@@ -12,7 +13,8 @@ proc.stdout.on('data', function(data)
 {
 	var result = data.toString();
 
-	// Chromium also outputs Chromium errors here, so filter for JS errors.
+	// Chromium also outputs Chromium initialize errors here, so filter for JS errors.
+	// JS errors in Chromium have the form of 'Uncaught TYPE: MESSAGE'
 	if(result.indexOf('Uncaught') != -1)
 	{
 		errors.push(result);
@@ -26,6 +28,6 @@ setTimeout(function()
 	// Output number of JS errors.
 	console.log(errors.length);
 
-	// Kill chromium
+	// Kill Chromium instance.
     proc.kill('SIGINT');
 }, 5000);

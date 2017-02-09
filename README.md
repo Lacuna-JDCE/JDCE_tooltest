@@ -3,7 +3,7 @@ This script runs several tools that should optimize JavaScript files by removing
 The script outputs a table with the amount of _function_ keywords in the resulting JS source.
 
 ## Installation
-This test requires Node.js, webpack, rollup and the closure compiler.
+This test requires Chromium, Node.js, webpack, rollup and the closure compiler.
 
 ## Running
 ```
@@ -13,7 +13,3 @@ This should create a folder for each tool. To remove all created folders, run
 ```
 ./tooltest.sh clean
 ```
-
-
-## Extra
-Default test application is from tastejs/todomvc (backbone example)
