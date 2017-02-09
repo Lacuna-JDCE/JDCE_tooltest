@@ -114,7 +114,7 @@ do
 	percent=$(echo "scale=1; $function_count*100/$function_keyword_count" | bc)
 
 	# Run a headless Chromium instance and retrieve the number of errors.
-	javascript_errors=$(node jserrorcount.js "${folders[i]}/$new_html_file $chrome_timeout")
+	javascript_errors=$(node jserrorcount.js "${folders[i]}/$new_html_file" $chrome_timeout)
 
 	# Output tool name and occurences.
 	printf "%-30s %-15s %-15s %s" ${folders[$i]} $function_count "$percent%"
